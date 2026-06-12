@@ -24,6 +24,7 @@ import {
   playDiceRollSound, 
   playCatMeowSound, 
   playCatPurrSound,
+  playForceVoiceSound,
   playBootSound
 } from './SoundEffects';
 import {
@@ -1418,6 +1419,7 @@ export const GameBoyScreen: React.FC<GameBoyScreenProps> = ({ gameState, setGame
       }
     }
     else if (interactable?.id === 'tv') {
+      playForceVoiceSound();
       setGameState((prev) => ({
         ...prev,
         activeBubble: showBubble('tv', interactable.bubbleX, interactable.bubbleY, 'MAY THE FORCE\nBE WITH YOU'),

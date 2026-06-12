@@ -216,3 +216,60 @@ export const playCatPurrSound = () => {
     }, i * 200);
   }
 };
+
+export const playForceVoiceSound = () => {
+  const ctx = getAudioContext();
+  if (!ctx) return;
+
+  const now = ctx.currentTime;
+  const syllables = [
+    { start: 0, freq: 170, filter: 760, dur: 0.14 },
+    { start: 0.16, freq: 245, filter: 1180, dur: 0.12 },
+    { start: 0.29, freq: 205, filter: 920, dur: 0.16 },
+    { start: 0.48, freq: 130, filter: 640, dur: 0.2 },
+    { start: 0.72, freq: 190, filter: 1040, dur: 0.18 },
+    { start: 0.94, freq: 155, filter: 700, dur: 0.26 },
+  ];
+
+  syllables.forEach(({ start, freq, filter, dur }, index) => {
+    const osc = ctx.createOscillator();
+    const buzz = ctx.createOscillator();
+    const filterNode = ctx.createBiquadFilter();
+    const gain = ctx.createGain();
+    const buzzGain = ctx.createGain();
+    const t = now + start;
+
+    osc.type = 'sawtooth';
+    buzz.type = 'square';
+    filterNode.type = 'bandpass';
+    filterNode.frequency.setValueAtTime(filter, t);
+    filterNode.frequency.linearRampToValueAtTime(filter + (index % 2 === 0 ? 180 : -140), t + dur);
+    filterNode.Q.setValueAtTime(7, t);
+
+    osc.frequency.setValueAtTime(freq, t);
+    osc.frequency.linearRampToValueAtTime(freq + (index % 2 === 0 ? 34 : -26), t + dur * 0.55);
+    osc.frequency.linearRampToValueAtTime(freq - 12, t + dur);
+
+    buzz.frequency.setValueAtTime(freq * 1.5, t);
+    buzz.frequency.linearRampToValueAtTime(freq * 1.25, t + dur);
+
+    gain.gain.setValueAtTime(0.0001, t);
+    gain.gain.exponentialRampToValueAtTime(0.18, t + 0.025);
+    gain.gain.exponentialRampToValueAtTime(0.065, t + dur * 0.72);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+
+    buzzGain.gain.setValueAtTime(0.025, t);
+    buzzGain.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+
+    osc.connect(filterNode);
+    filterNode.connect(gain);
+    buzz.connect(buzzGain);
+    buzzGain.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start(t);
+    buzz.start(t);
+    osc.stop(t + dur);
+    buzz.stop(t + dur);
+  });
+};
