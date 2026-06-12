@@ -1,0 +1,6 @@
+{
+  "name": "Game Boy Room Simulator",
+  "description": "A retro Game Boy Style simulator where you control a character exploring a three-zone room: a kitchen with coffee counter, a dice counter, and a living room with two cats.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
