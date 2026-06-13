@@ -254,11 +254,11 @@ export const playForceVoiceSound = () => {
     buzz.frequency.linearRampToValueAtTime(freq * 1.25, t + dur);
 
     gain.gain.setValueAtTime(0.0001, t);
-    gain.gain.exponentialRampToValueAtTime(0.26, t + 0.025);
-    gain.gain.exponentialRampToValueAtTime(0.09, t + dur * 0.72);
+    gain.gain.exponentialRampToValueAtTime(0.5, t + 0.025);
+    gain.gain.exponentialRampToValueAtTime(0.17, t + dur * 0.72);
     gain.gain.exponentialRampToValueAtTime(0.0001, t + dur);
 
-    buzzGain.gain.setValueAtTime(0.035, t);
+    buzzGain.gain.setValueAtTime(0.066, t);
     buzzGain.gain.exponentialRampToValueAtTime(0.0001, t + dur);
 
     osc.connect(filterNode);

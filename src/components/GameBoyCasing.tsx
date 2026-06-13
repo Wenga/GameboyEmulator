@@ -130,7 +130,7 @@ export const GameBoyCasing: React.FC<GameBoyCasingProps> = ({ gameState, setGame
           
           {/* Left Side: Physical Directional D-Pad */}
           <div className="flex items-center justify-center">
-            <div className="relative h-[144px] w-[144px] sm:h-[180px] sm:w-[180px]" id="gb-dpad">
+            <div className="relative h-[144px] w-[144px] sm:h-[180px] sm:w-[180px]" id="gb-dpad" style={{ touchAction: 'none' }}>
               
               {/* D-Pad Horizontal Bar Background */}
               <div className="absolute left-[5px] top-[53px] h-[44px] w-[135px] rounded bg-gray-800 border-b-2 border-r border-gray-900 shadow-lg sm:left-[6px] sm:top-[66px] sm:h-[54px] sm:w-[168px]" />
@@ -146,7 +146,7 @@ export const GameBoyCasing: React.FC<GameBoyCasingProps> = ({ gameState, setGame
               <button
                 id="gb-dpad-up"
                 onMouseDown={() => startMoving(0, -1.2, 'up')}
-                onTouchStart={(e) => { e.preventDefault(); startMoving(0, -1.2, 'up'); }}
+                onTouchStart={() => startMoving(0, -1.2, 'up')}
                 onMouseUp={stopMoving}
                 onTouchEnd={stopMoving}
                 onMouseLeave={stopMoving}
@@ -159,7 +159,7 @@ export const GameBoyCasing: React.FC<GameBoyCasingProps> = ({ gameState, setGame
               <button
                 id="gb-dpad-down"
                 onMouseDown={() => startMoving(0, 1.2, 'down')}
-                onTouchStart={(e) => { e.preventDefault(); startMoving(0, 1.2, 'down'); }}
+                onTouchStart={() => startMoving(0, 1.2, 'down')}
                 onMouseUp={stopMoving}
                 onTouchEnd={stopMoving}
                 onMouseLeave={stopMoving}
@@ -172,7 +172,7 @@ export const GameBoyCasing: React.FC<GameBoyCasingProps> = ({ gameState, setGame
               <button
                 id="gb-dpad-left"
                 onMouseDown={() => startMoving(-1.2, 0, 'left')}
-                onTouchStart={(e) => { e.preventDefault(); startMoving(-1.2, 0, 'left'); }}
+                onTouchStart={() => startMoving(-1.2, 0, 'left')}
                 onMouseUp={stopMoving}
                 onTouchEnd={stopMoving}
                 onMouseLeave={stopMoving}
@@ -185,7 +185,7 @@ export const GameBoyCasing: React.FC<GameBoyCasingProps> = ({ gameState, setGame
               <button
                 id="gb-dpad-right"
                 onMouseDown={() => startMoving(1.2, 0, 'right')}
-                onTouchStart={(e) => { e.preventDefault(); startMoving(1.2, 0, 'right'); }}
+                onTouchStart={() => startMoving(1.2, 0, 'right')}
                 onMouseUp={stopMoving}
                 onTouchEnd={stopMoving}
                 onMouseLeave={stopMoving}
