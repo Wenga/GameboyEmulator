@@ -1054,9 +1054,11 @@ export const GameBoyScreen: React.FC<GameBoyScreenProps> = ({ gameState, setGame
   // Handle game frame updates
   useEffect(() => {
     if (!gameState.powerOn) return;
+    let animationTick = 0;
     
     const interval = setInterval(() => {
-      setFrameTick((prev) => (prev + 1) % 120);
+      animationTick = (animationTick + 1) % 120;
+      setFrameTick(animationTick);
 
       // Manage steam particles
       if (gameState.coffeeState === 'brewing') {
@@ -1113,10 +1115,7 @@ export const GameBoyScreen: React.FC<GameBoyScreenProps> = ({ gameState, setGame
         // Update player walk frame if moving
         let newFrame = prev.player.frame;
         if (prev.player.isMoving) {
-          // Walk animation speed
-          if (frameTick % 8 === 0) {
-            newFrame = prev.player.frame === 1 ? 2 : 1;
-          }
+          newFrame = Math.floor(animationTick / 4) % 2 === 0 ? 1 : 2;
         } else {
           newFrame = 0; // Idle
         }
@@ -1192,7 +1191,6 @@ export const GameBoyScreen: React.FC<GameBoyScreenProps> = ({ gameState, setGame
           player: {
             ...prev.player,
             frame: newFrame,
-            isMoving: false, // Reset every frame - controls must hold to move
             coffeeSpeedBoostUntil: prev.player.coffeeSpeedBoostUntil,
           }
         };
@@ -1201,7 +1199,7 @@ export const GameBoyScreen: React.FC<GameBoyScreenProps> = ({ gameState, setGame
     }, 30);
 
     return () => clearInterval(interval);
-  }, [gameState.powerOn, gameState.coffeeState, gameState.diceState, frameTick]);
+  }, [gameState.powerOn, gameState.coffeeState, gameState.diceState]);
 
   // Smooth camera tracking
   useEffect(() => {
@@ -1298,6 +1296,11 @@ export const GameBoyScreen: React.FC<GameBoyScreenProps> = ({ gameState, setGame
 
       if (dx !== 0 || dy !== 0) {
         moveCharacter(dx, dy, targetDir);
+      } else {
+        setGameState((prev) => prev.player.isMoving
+          ? { ...prev, player: { ...prev.player, isMoving: false } }
+          : prev
+        );
       }
     }, 30);
 
